@@ -32,7 +32,7 @@ export default function EventList({ events, onStatusChange }: Props) {
         typeof event.sn === "string" ? parseInt(event.sn, 10) : event.sn;
 
       const response = await fetch(
-        `${process.env.DATABASE_URL}/event/makelive`,
+        `${process.env.NEXT_PUBLIC_API_URL}/event/makelive`,
         // "https://moloyal.com/mosave/script/api/event/makelive",
         {
           method: "POST",

@@ -93,13 +93,12 @@ export const eventsApi = createApi({
     }),
     getUpcomingEvents: builder.query<Event[], void>({
       query: () => ({
-        url: "https://moloyal.com/mosave/script/api/event/upcomingevent/",
+        url: "/event/upcomingevent/",
         method: "GET",
       }),
     }),
     getRecentPurchases: builder.query<Purchase[], string>({
-      query: (eventId) =>
-        `https://moloyal.com/mosave/script/api/event/recentpurchases/${eventId}`,
+      query: (eventId) => `/event/recentpurchases/${eventId}`,
     }),
   }),
 });
