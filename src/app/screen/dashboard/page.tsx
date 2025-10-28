@@ -12,8 +12,6 @@ export default function DashboardPage() {
       <UpcomingEvents />
       <TicketsSoldPerEvent />
       <RevenuePerEvent />
-
-      {/* You’ll render widgets/cards/components here */}
     </Layout>
   );
 }
