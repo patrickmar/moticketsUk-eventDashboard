@@ -1,3 +1,4 @@
+"use client";
 import { useGetAdminProfileQuery } from "@/store/api/authApi";
 import React from "react";
 
