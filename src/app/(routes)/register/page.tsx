@@ -22,7 +22,6 @@ const Register: React.FC = () => {
       const result = await registerAdmin(formData).unwrap();
       console.log("Result", result);
 
-      // Handle successful registration
       if (result.success) {
         // Store token if available
         if (result.data?.token) {
