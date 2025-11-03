@@ -89,7 +89,7 @@ export const eventsApi = createApi({
   }),
   endpoints: (builder) => ({
     getAllEvents: builder.query<EventsResponse, void>({
-      query: () => "allevents",
+      query: () => "/allevents",
     }),
     getUpcomingEvents: builder.query<Event[], void>({
       query: () => ({

@@ -2,6 +2,7 @@
 
 import { useRegisterAdminMutation } from "@/store/api/authApi";
 import { RegisterRequest } from "@/types/auth";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const Register: React.FC = () => {
@@ -16,12 +17,16 @@ const Register: React.FC = () => {
   const [registerAdmin, { data, isLoading, error, isError }] =
     useRegisterAdminMutation();
 
+  const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const result = await registerAdmin(formData).unwrap();
       console.log("Result", result);
+      router.push("/login");
 
+      // Handle successful registration
       if (result.success) {
         // Store token if available
         if (result.data?.token) {
@@ -31,7 +36,7 @@ const Register: React.FC = () => {
 
         // Redirect to dashboard or show success message
         alert("Registration successful!");
-        window.location.href = "/dashboard"; // Or use router.push if using Next.js navigation
+        router.push("/login"); // Or use router.push if using Next.js navigation
       }
     } catch (err) {
       console.error("Registration failed:", err);

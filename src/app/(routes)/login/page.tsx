@@ -33,7 +33,6 @@ const LoginComponent: React.FC = () => {
         localStorage.setItem("adminId", result.data.adminid || "");
       }
 
-      // Handle successful login - redirect or refresh
       if (result.success && result.data?.token) {
         dispatch(setAuthToken(result.data.token));
         localStorage.setItem("authToken", result.data.token);

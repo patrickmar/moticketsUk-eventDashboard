@@ -45,9 +45,9 @@ export default function EventList({ events, onStatusChange }: Props) {
         }
       );
 
-      console.log("📡 Response status:", response.status);
-      console.log("📡 Response ok:", response.ok);
-
+      // console.log("📡 Response status:", response.status);
+      // console.log("📡 Response ok:", response.ok);
+      //
       const result = await response.json();
       console.log("📡 Full API response:", result);
 
@@ -58,8 +58,8 @@ export default function EventList({ events, onStatusChange }: Props) {
       }
 
       if (result.error === false) {
-        console.log("✅ Event status updated successfully!");
-        console.log("✅ Returned event ID:", result.eventid);
+        // console.log("✅ Event status updated successfully!");
+        // console.log("✅ Returned event ID:", result.eventid);
 
         // Call the callback to refresh events
         if (onStatusChange) {
@@ -75,8 +75,6 @@ export default function EventList({ events, onStatusChange }: Props) {
         throw new Error(result.message || "API returned error");
       }
     } catch (error) {
-      console.error("❌ Failed to update event status:", error);
-
       // More detailed error message
       let errorMessage = "Failed to update event status";
       if (error instanceof Error) {
