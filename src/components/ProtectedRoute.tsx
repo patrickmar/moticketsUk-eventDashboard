@@ -1,15 +1,35 @@
 // components/ProtectedRoute.tsx
 "use client";
 
-import { useAuth } from "@/contexts/AuthContext";
-import LoginForm from "./LoginForm";
+import { useEffect, useState } from "react";
+import LoginComponent from "@/app/(routes)/login/page";
 
 export default function ProtectedRoute({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { isAuthenticated, isLoading } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Check authentication status
+    const checkAuth = () => {
+      try {
+        // Check if user has auth token in localStorage
+        const token = localStorage.getItem("authToken");
+        // You can add additional validation here (e.g., token expiry)
+        setIsAuthenticated(!!token);
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        setIsAuthenticated(false);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
 
   if (isLoading) {
     return (
@@ -20,7 +40,7 @@ export default function ProtectedRoute({
   }
 
   if (!isAuthenticated) {
-    return <LoginForm />;
+    return <LoginComponent />;
   }
 
   return <>{children}</>;

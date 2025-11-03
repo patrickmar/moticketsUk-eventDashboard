@@ -85,7 +85,7 @@ interface EventsResponse {
 export const eventsApi = createApi({
   reducerPath: "eventsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://moloyal.com/mosave/script/api/host/",
+    baseUrl: "https://moloyal.com/test/mosave/script/api/host/",
   }),
   endpoints: (builder) => ({
     getAllEvents: builder.query<EventsResponse, void>({
