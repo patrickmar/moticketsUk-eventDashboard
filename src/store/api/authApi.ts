@@ -10,7 +10,7 @@ import { RootState } from "../store";
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://moloyal.com/test/mosave/script/api",
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}`,
     prepareHeaders: (headers, { getState }) => {
       const token = (getState() as RootState).auth.token;
       if (token) headers.set("Authorization", `Bearer ${token}`);

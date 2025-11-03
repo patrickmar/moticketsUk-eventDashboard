@@ -1,4 +1,3 @@
-// components/EventForm.tsx
 "use client";
 
 import { useState } from "react";
