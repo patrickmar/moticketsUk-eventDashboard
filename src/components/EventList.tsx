@@ -23,9 +23,15 @@ export default function EventList({ events, onStatusChange }: Props) {
     try {
       setLoadingEventId(event.sn);
 
-      console.log("🔄 Making API call to make event live...");
+      console.log("🔄 Making API call to toggle event status...");
       console.log("Event ID:", event.sn);
       console.log("Current status:", event.status);
+
+      // Determine the toggle value based on current status
+      const currentStatus = event.status === "Active";
+      const toggleValue = currentStatus ? "off" : "on";
+
+      console.log("Toggle value to send:", toggleValue);
 
       // Convert event.sn to number if it's a string
       const eventId =
@@ -41,13 +47,13 @@ export default function EventList({ events, onStatusChange }: Props) {
           },
           body: JSON.stringify({
             eventid: eventId, // Use the converted number
+            toggle: toggleValue, // Add the toggle field
           }),
         }
       );
 
-      // console.log("📡 Response status:", response.status);
-      // console.log("📡 Response ok:", response.ok);
-      //
+      console.log("📡 Response status:", response.status);
+
       const result = await response.json();
       console.log("📡 Full API response:", result);
 
@@ -58,8 +64,8 @@ export default function EventList({ events, onStatusChange }: Props) {
       }
 
       if (result.error === false) {
-        // console.log("✅ Event status updated successfully!");
-        // console.log("✅ Returned event ID:", result.eventid);
+        console.log("✅ Event status updated successfully!");
+        console.log("✅ Returned event ID:", result.eventid);
 
         // Call the callback to refresh events
         if (onStatusChange) {
@@ -88,6 +94,7 @@ export default function EventList({ events, onStatusChange }: Props) {
         eventId: event.sn,
         eventIdType: typeof event.sn,
         currentStatus: event.status,
+        attemptedToggle: event.status === "Active" ? "off" : "on",
       });
     } finally {
       setLoadingEventId(null);
@@ -208,6 +215,9 @@ export default function EventList({ events, onStatusChange }: Props) {
                       ID: {event.sn} ({typeof event.sn})
                     </span>
                     <span>Status: {event.status}</span>
+                    <span>
+                      Will toggle: {event.status === "Active" ? "off" : "on"}
+                    </span>
                   </div>
                 )}
               </div>
@@ -229,12 +239,12 @@ export default function EventList({ events, onStatusChange }: Props) {
                   ) : isLive ? (
                     <>
                       <ToggleRight className="h-5 w-5 text-green-500" />
-                      <span className="text-green-600 font-medium">Live</span>
+                      <span className="text-green-600 font-medium">Active</span>
                     </>
                   ) : (
                     <>
                       <ToggleLeft className="h-5 w-5 text-gray-400" />
-                      <span className="text-gray-500">Make Live</span>
+                      <span className="text-gray-500">Inactive</span>
                     </>
                   )}
                 </Button>
@@ -248,6 +258,11 @@ export default function EventList({ events, onStatusChange }: Props) {
                   }`}
                 >
                   {isLive ? "Active" : "Inactive"}
+                </div>
+
+                {/* Toggle action hint */}
+                <div className="text-xs text-gray-400 text-center">
+                  Click to {isLive ? "deactivate" : "activate"}
                 </div>
               </div>
             </div>
