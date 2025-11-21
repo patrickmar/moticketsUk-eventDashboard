@@ -21,7 +21,7 @@ export default function UpcomingEvents() {
     });
 
   if (isLoading) return <p>Loading events...</p>;
-  if (isError) return <p>No Upcoming event</p>;
+  if (isError) return <p>No Inactive Event</p>;
 
   return (
     <>
