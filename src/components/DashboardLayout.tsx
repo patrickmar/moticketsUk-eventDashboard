@@ -1,11 +1,9 @@
-// components/DashboardLayout.tsx
 "use client";
 
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import { Menu, LogOut, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/contexts/AuthContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,16 +11,24 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import { logout } from "@/store/api/authSlice";
+
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const { user, logout } = useAuth();
+
+  // Replace useAuth → Redux
+  const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.auth.user);
 
   const handleLogout = () => {
-    logout();
+    dispatch(logout());
   };
 
   return (
@@ -43,7 +49,7 @@ export default function DashboardLayout({
         </Button>
       </div>
 
-      {/* Sidebar overlay for Mobile */}
+      {/* Mobile Sidebar Overlay */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 z-40 flex md:hidden"
@@ -60,18 +66,16 @@ export default function DashboardLayout({
         </div>
       )}
 
-      {/* Main content */}
+      {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        {/* Header with user info */}
+        {/* Header */}
         <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-center px-6 py-4">
-            <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-                Dashboard
-              </h1>
-            </div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Dashboard
+            </h1>
 
-            {/* User dropdown */}
+            {/* User Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -81,16 +85,17 @@ export default function DashboardLayout({
                   <div className="flex items-center space-x-2">
                     <User className="h-5 w-5" />
                     <span className="text-sm font-medium dark:text-white">
-                      {/* {user?.name || "User"} */}
+                      {user?.firstname || "User"}
                     </span>
                   </div>
                 </Button>
               </DropdownMenuTrigger>
+
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuItem className="flex flex-col items-start">
-                  {/* <div className="text-sm font-medium">{user?.name}</div> */}
                   <div className="text-xs text-gray-500">{user?.email}</div>
                 </DropdownMenuItem>
+
                 <DropdownMenuItem
                   onClick={handleLogout}
                   className="text-red-600"
@@ -103,7 +108,7 @@ export default function DashboardLayout({
           </div>
         </header>
 
-        {/* Page content */}
+        {/* Page Content */}
         <main className="flex-1 bg-gray-100 dark:bg-gray-950 overflow-y-auto p-4">
           {children}
         </main>

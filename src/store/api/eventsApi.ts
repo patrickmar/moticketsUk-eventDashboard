@@ -85,11 +85,11 @@ interface EventsResponse {
 export const eventsApi = createApi({
   reducerPath: "eventsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}/host`,
+    baseUrl: `${process.env.NEXT_PUBLIC_API_URL}`,
   }),
   endpoints: (builder) => ({
     getAllEvents: builder.query<EventsResponse, void>({
-      query: () => "/allevents",
+      query: () => "/host/allevents",
     }),
     getUpcomingEvents: builder.query<Event[], void>({
       query: () => ({
@@ -98,7 +98,7 @@ export const eventsApi = createApi({
       }),
     }),
     getRecentPurchases: builder.query<Purchase[], string>({
-      query: (eventId) => `/event/recentpurchases/${eventId}`,
+      query: (eventId) => `/host/event/recentpurchases/${eventId}`,
     }),
   }),
 });

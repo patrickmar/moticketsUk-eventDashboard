@@ -12,7 +12,11 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { name: "Dashboard", href: "/", icon: <LayoutDashboard size={18} /> },
+  {
+    name: "Dashboard",
+    href: "/screen/dashboard",
+    icon: <LayoutDashboard size={18} />,
+  },
   { name: "Events", href: "/events", icon: <Calendar size={18} /> },
   { name: "Tickets", href: "/tickets", icon: <Ticket size={18} /> },
   { name: "Analytics", href: "/analytics", icon: <BarChart size={18} /> },

@@ -100,17 +100,17 @@ export default function EventList({ events, onStatusChange }: Props) {
       setLoadingEventId(null);
     }
   };
+  // Filter out events with invalid date values
+  const validEvents = (events || []).filter((event) => {
+    const date = new Date(`${event.from_date}T${event.from_time}`);
+    return !isNaN(date.getTime());
+  });
 
   // Sort events in descending order by date
-  const sortedEvents = [...(events || [])].sort((a, b) => {
-    try {
-      const dateA = new Date(`${a.from_date}T${a.from_time}`).getTime();
-      const dateB = new Date(`${b.from_date}T${b.from_time}`).getTime();
-      return dateB - dateA;
-    } catch (error) {
-      console.error("Error sorting events:", error);
-      return 0;
-    }
+  const sortedEvents = [...validEvents].sort((a, b) => {
+    const dateA = new Date(`${a.from_date}T${a.from_time}`).getTime();
+    const dateB = new Date(`${b.from_date}T${b.from_time}`).getTime();
+    return dateB - dateA;
   });
 
   // Count events by status
